@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iSupportFeedbackModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FeedbackEntry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="Hash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="FeedbackEntryInfoes" Relationship="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntries" ToRole="FeedbackEntryInfoes" />
+    <NavigationProperty Name="MutedFeedbackEntries" Relationship="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntries" ToRole="MutedFeedbackEntries" />
+  </EntityType>
+  <EntityType Name="FeedbackEntryInfo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LogEntryLevel" Type="Int32" Nullable="false" />
+    <Property Name="EventId" Type="Int32" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Browser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsMobile" Type="Boolean" />
+    <Property Name="Version" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SerialNumber" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OccuranceCount" Type="Int32" Nullable="false" />
+    <Property Name="EntryId" Type="Guid" Nullable="false" />
+    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="FeedbackEntry" Relationship="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntryInfoes" ToRole="FeedbackEntries" />
+  </EntityType>
+  <EntityType Name="MutedFeedbackEntry">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Version" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+    <Property Name="SerialNumber" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="EntryId" Type="Guid" />
+    <Property Name="UnMuted" Type="Boolean" Nullable="false" />
+    <Property Name="HideFromView" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="FeedbackEntry" Relationship="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" FromRole="MutedFeedbackEntries" ToRole="FeedbackEntries" />
+  </EntityType>
+  <Association Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+    <End Role="FeedbackEntries" Type="Self.FeedbackEntry" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FeedbackEntryInfoes" Type="Self.FeedbackEntryInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FeedbackEntries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FeedbackEntryInfoes">
+        <PropertyRef Name="EntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+    <End Role="FeedbackEntries" Type="Self.FeedbackEntry" Multiplicity="0..1" />
+    <End Role="MutedFeedbackEntries" Type="Self.MutedFeedbackEntry" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FeedbackEntries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MutedFeedbackEntries">
+        <PropertyRef Name="EntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="iSupportFeedbackEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="FeedbackEntries" EntityType="Self.FeedbackEntry" />
+    <EntitySet Name="FeedbackEntryInfoes" EntityType="Self.FeedbackEntryInfo" />
+    <EntitySet Name="MutedFeedbackEntries" EntityType="Self.MutedFeedbackEntry" />
+    <AssociationSet Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+      <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+      <End Role="FeedbackEntryInfoes" EntitySet="FeedbackEntryInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+      <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+      <End Role="MutedFeedbackEntries" EntitySet="MutedFeedbackEntries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

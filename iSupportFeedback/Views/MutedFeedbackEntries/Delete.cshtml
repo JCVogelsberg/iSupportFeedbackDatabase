@@ -1,0 +1,72 @@
+﻿@model iSupportFeedback.Models.MutedFeedbackEntry
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MutedFeedbackEntry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timestamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnMuted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnMuted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HideFromView)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HideFromView)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeedbackEntry.Hash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeedbackEntry.Hash)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

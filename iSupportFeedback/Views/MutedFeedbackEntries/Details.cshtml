@@ -1,0 +1,66 @@
+﻿@model iSupportFeedback.Models.MutedFeedbackEntry
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MutedFeedbackEntry</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timestamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnMuted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnMuted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HideFromView)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HideFromView)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeedbackEntry.Hash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeedbackEntry.Hash)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

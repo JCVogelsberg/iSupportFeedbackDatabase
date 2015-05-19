@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="iSupportFeedbackModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FeedbackEntries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Hash" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FeedbackEntryInfoes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogEntryLevel" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Browser" Type="nvarchar(max)" />
+          <Property Name="IsMobile" Type="bit" />
+          <Property Name="Version" Type="nvarchar" MaxLength="8" Nullable="false" />
+          <Property Name="SerialNumber" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="OccuranceCount" Type="int" Nullable="false" />
+          <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MutedFeedbackEntries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="Version" Type="nvarchar" MaxLength="8" />
+          <Property Name="SerialNumber" Type="nvarchar" MaxLength="40" />
+          <Property Name="EntryId" Type="uniqueidentifier" />
+          <Property Name="UnMuted" Type="bit" Nullable="false" />
+          <Property Name="HideFromView" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+          <End Role="FeedbackEntries" Type="Self.FeedbackEntries" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FeedbackEntryInfoes" Type="Self.FeedbackEntryInfoes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeedbackEntries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeedbackEntryInfoes">
+              <PropertyRef Name="EntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+          <End Role="FeedbackEntries" Type="Self.FeedbackEntries" Multiplicity="0..1" />
+          <End Role="MutedFeedbackEntries" Type="Self.MutedFeedbackEntries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeedbackEntries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MutedFeedbackEntries">
+              <PropertyRef Name="EntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="iSupportFeedbackModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeedbackEntries" EntityType="Self.FeedbackEntries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FeedbackEntryInfoes" EntityType="Self.FeedbackEntryInfoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MutedFeedbackEntries" EntityType="Self.MutedFeedbackEntries" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+            <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+            <End Role="FeedbackEntryInfoes" EntitySet="FeedbackEntryInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+            <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+            <End Role="MutedFeedbackEntries" EntitySet="MutedFeedbackEntries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="iSupportFeedbackModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FeedbackEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Hash" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FeedbackEntryInfoes" Relationship="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntries" ToRole="FeedbackEntryInfoes" />
+          <NavigationProperty Name="MutedFeedbackEntries" Relationship="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntries" ToRole="MutedFeedbackEntries" />
+        </EntityType>
+        <EntityType Name="FeedbackEntryInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LogEntryLevel" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Browser" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsMobile" Type="Boolean" />
+          <Property Name="Version" Type="String" MaxLength="8" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OccuranceCount" Type="Int32" Nullable="false" />
+          <Property Name="EntryId" Type="Guid" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="FeedbackEntry" Relationship="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" FromRole="FeedbackEntryInfoes" ToRole="FeedbackEntries" />
+        </EntityType>
+        <EntityType Name="MutedFeedbackEntry">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Version" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="SerialNumber" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="EntryId" Type="Guid" />
+          <Property Name="UnMuted" Type="Boolean" Nullable="false" />
+          <Property Name="HideFromView" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FeedbackEntry" Relationship="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" FromRole="MutedFeedbackEntries" ToRole="FeedbackEntries" />
+        </EntityType>
+        <Association Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+          <End Role="FeedbackEntries" Type="Self.FeedbackEntry" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FeedbackEntryInfoes" Type="Self.FeedbackEntryInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeedbackEntries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FeedbackEntryInfoes">
+              <PropertyRef Name="EntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+          <End Role="FeedbackEntries" Type="Self.FeedbackEntry" Multiplicity="0..1" />
+          <End Role="MutedFeedbackEntries" Type="Self.MutedFeedbackEntry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FeedbackEntries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MutedFeedbackEntries">
+              <PropertyRef Name="EntryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="iSupportFeedbackEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="FeedbackEntries" EntityType="Self.FeedbackEntry" />
+          <EntitySet Name="FeedbackEntryInfoes" EntityType="Self.FeedbackEntryInfo" />
+          <EntitySet Name="MutedFeedbackEntries" EntityType="Self.MutedFeedbackEntry" />
+          <AssociationSet Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+            <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+            <End Role="FeedbackEntryInfoes" EntitySet="FeedbackEntryInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+            <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+            <End Role="MutedFeedbackEntries" EntitySet="MutedFeedbackEntries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="iSupportFeedbackModelStoreContainer" CdmEntityContainer="iSupportFeedbackEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="iSupportFeedbackModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedbackEntries">
+            <EntityTypeMapping TypeName="iSupportFeedbackModel.FeedbackEntry">
+              <MappingFragment StoreEntitySet="FeedbackEntries">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FeedbackEntryInfoes">
+            <EntityTypeMapping TypeName="iSupportFeedbackModel.FeedbackEntryInfo">
+              <MappingFragment StoreEntitySet="FeedbackEntryInfoes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="LogEntryLevel" ColumnName="LogEntryLevel" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Browser" ColumnName="Browser" />
+                <ScalarProperty Name="IsMobile" ColumnName="IsMobile" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="OccuranceCount" ColumnName="OccuranceCount" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MutedFeedbackEntries">
+            <EntityTypeMapping TypeName="iSupportFeedbackModel.MutedFeedbackEntry">
+              <MappingFragment StoreEntitySet="MutedFeedbackEntries">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="EntryId" ColumnName="EntryId" />
+                <ScalarProperty Name="UnMuted" ColumnName="UnMuted" />
+                <ScalarProperty Name="HideFromView" ColumnName="HideFromView" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - iSupport Feedback Database</title>
+    <link href='http://fonts.googleapis.com/css?family=Poiret+One|Kaushan+Script' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            @*   @Html.ActionLink("HOME", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })   *@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Feedback Entry Info", "Index", "FeedbackEntryInfoes")</li>
+                    <li>@Html.ActionLink("Muted Feedback Entries", "Index", "MutedFeedbackEntries")</li>
+                </ul> 
+                @* @Html.Partial("_LoginPartial")   *@
+            </div>
+        </div>
+    </div>
+    <div class="container body-content full-width">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p><center>&copy; @DateTime.Now.Year - <i><a href="http://jasonvogelsberg.com/" target="_blank">JC Vogelsberg</a></i></center></p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

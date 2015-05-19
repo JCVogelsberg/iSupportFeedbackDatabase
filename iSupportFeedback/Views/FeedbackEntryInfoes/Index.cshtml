@@ -1,0 +1,86 @@
+﻿@model IEnumerable<iSupportFeedback.Models.FeedbackEntryInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Feedback Entries</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Hash or Serial Number:
+        @Html.TextBox("searchThing")
+        <input type="submit" value="Search"/>
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+
+            @Html.ActionLink("Timestamp", "Index", new { sortOrder = ViewBag.TimestampSortParm })
+        </th>
+
+        <th>
+            @Html.ActionLink("Hash", "Index", new { sortOrder = ViewBag.HashSortParm })
+        </th>
+
+  @*    <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th> *@
+
+        <th>
+            @Html.ActionLink("Log Entry Level", "Index", new { sortOrder = ViewBag.LogEntryLevelSortParm })
+        </th>
+
+@*       <th>
+            @Html.DisplayNameFor(model => model.Message)  
+        </th>   *@
+        <th>
+            @Html.ActionLink("Version", "Index", new { sortOrder = ViewBag.VersionSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("Serial Number", "Index", new { sortOrder = ViewBag.SerialNumberParm })            
+        </th>
+        <th>
+            @Html.ActionLink("Occurance Count", "Index", new { sortOrder = ViewBag.OccuranceCountSortParm })
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeedbackEntry.Hash)
+        </td>
+
+    @*  <td>
+            @Html.DisplayFor(modelItem => item.Source)
+        </td>   *@
+        <td>
+            @Html.DisplayFor(modelItem => item.LogEntryLevel)
+        </td>
+        @*        <td>
+             @Html.DisplayFor(modelItem => item.Message)
+        </td>     *@
+        <td>
+            @Html.DisplayFor(modelItem => item.Version)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OccuranceCount)
+        </td>
+
+        <td>
+            @Html.ActionLink("Details", "Details", new {id = item.Id})  
+
+        </td>
+    </tr>
+}
+
+</table>

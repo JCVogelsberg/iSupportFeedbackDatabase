@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1d929beb76484bc8bfebbb42388152ba" Name="Diagram1">
+        <EntityTypeShape EntityType="iSupportFeedbackModel.C__MigrationHistory" Width="2.5" PointX="9.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iSupportFeedbackModel.FeedbackEntry" Width="2.375" PointX="0.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iSupportFeedbackModel.FeedbackEntryInfo" Width="2.5" PointX="6.125" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iSupportFeedbackModel.MutedFeedbackEntry" Width="2.5" PointX="6.125" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="iSupportFeedbackModel.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" ManuallyRouted="false" />
+        <AssociationConnector Association="iSupportFeedbackModel.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

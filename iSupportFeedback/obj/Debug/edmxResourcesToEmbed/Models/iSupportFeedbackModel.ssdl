@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iSupportFeedbackModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FeedbackEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Hash" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FeedbackEntryInfoes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Source" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LogEntryLevel" Type="int" Nullable="false" />
+    <Property Name="EventId" Type="int" Nullable="false" />
+    <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Browser" Type="nvarchar(max)" />
+    <Property Name="IsMobile" Type="bit" />
+    <Property Name="Version" Type="nvarchar" MaxLength="8" Nullable="false" />
+    <Property Name="SerialNumber" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="OccuranceCount" Type="int" Nullable="false" />
+    <Property Name="EntryId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Timestamp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MutedFeedbackEntries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Timestamp" Type="datetime" Nullable="false" />
+    <Property Name="Version" Type="nvarchar" MaxLength="8" />
+    <Property Name="SerialNumber" Type="nvarchar" MaxLength="40" />
+    <Property Name="EntryId" Type="uniqueidentifier" />
+    <Property Name="UnMuted" Type="bit" Nullable="false" />
+    <Property Name="HideFromView" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+    <End Role="FeedbackEntries" Type="Self.FeedbackEntries" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FeedbackEntryInfoes" Type="Self.FeedbackEntryInfoes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FeedbackEntries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FeedbackEntryInfoes">
+        <PropertyRef Name="EntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+    <End Role="FeedbackEntries" Type="Self.FeedbackEntries" Multiplicity="0..1" />
+    <End Role="MutedFeedbackEntries" Type="Self.MutedFeedbackEntries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FeedbackEntries">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="MutedFeedbackEntries">
+        <PropertyRef Name="EntryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="iSupportFeedbackModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedbackEntries" EntityType="Self.FeedbackEntries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FeedbackEntryInfoes" EntityType="Self.FeedbackEntryInfoes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MutedFeedbackEntries" EntityType="Self.MutedFeedbackEntries" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_FeedbackEntryInfoes_dbo_FeedbackEntries_EntryId">
+      <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+      <End Role="FeedbackEntryInfoes" EntitySet="FeedbackEntryInfoes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId" Association="Self.FK_dbo_MutedFeedbackEntries_dbo_FeedbackEntries_EntryId">
+      <End Role="FeedbackEntries" EntitySet="FeedbackEntries" />
+      <End Role="MutedFeedbackEntries" EntitySet="MutedFeedbackEntries" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

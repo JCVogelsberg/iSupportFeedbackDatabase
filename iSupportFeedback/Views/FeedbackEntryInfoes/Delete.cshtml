@@ -1,0 +1,112 @@
+﻿@model iSupportFeedback.Models.FeedbackEntryInfo
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>FeedbackEntryInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Source)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Source)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LogEntryLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LogEntryLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Browser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Browser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsMobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsMobile)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OccuranceCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OccuranceCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timestamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeedbackEntry.Hash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeedbackEntry.Hash)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<iSupportFeedback.Models.MutedFeedbackEntry>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Muted Feedback Entries</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Hash or Serial Number:
+        @Html.TextBox("searchString")
+        <input type="submit" value="Search"/>
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Timestamp", "Index", new {sortOrder = ViewBag.TimestampSortParm })
+        </th>
+
+        <th>
+            @Html.ActionLink("Hash", "Index", new { sortOrder = ViewBag.HashSortParm })
+        </th>
+        <th>
+            @Html.ActionLink("SerialNumber", "Index", new {sortOrder = ViewBag.SerialNumberSortParm })
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnMuted)     
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HideFromView)
+        </th>   
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeedbackEntry.Hash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnMuted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HideFromView)
+        </td>
+
+        <td>
+
+            @Html.ActionLink("Details", "Details", new {id = item.Id})
+@*          @Html.ActionLink("Create TFS Bug")  *@
+
+        </td>
+    </tr>
+}
+
+</table>
