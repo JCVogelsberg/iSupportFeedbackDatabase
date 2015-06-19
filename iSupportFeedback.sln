@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iSupportFeedback", "iSupportFeedback\iSupportFeedback.csproj", "{8BEEE387-CC71-43BD-9BC0-6F8A7CB1E8D0}"
 EndProject
 Global
