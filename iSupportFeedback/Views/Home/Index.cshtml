@@ -10,7 +10,7 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <h2>Filter By:</h2>
         <ul>
             <li>Log Level</li>
@@ -20,6 +20,11 @@
             <li>Serial Number</li>
         </ul>
     </div>
+
+    <div class="col-md-4">
+        @(Html.Kendo().DatePicker().Name("datepicker"))
+    </div>
+    
 
 @*    <div class="col-md-4">
         @Html.ActionLink("Feedback Entry Info", "Index", "FeedbackEntryInfoes")

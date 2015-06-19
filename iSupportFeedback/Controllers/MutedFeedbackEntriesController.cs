@@ -1,173 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Linq;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Policy;
+using System.Net;
 using iSupportFeedback.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using PagedList;
+
+
 
 namespace iSupportFeedback.Controllers
 {
-    public class MutedFeedbackEntriesController : Controller
+    public partial class MutedFeedbackEntriesController : Controller
     {
         private iSupportFeedbackEntities db = new iSupportFeedbackEntities();
 
-        // GET: MutedFeedbackEntries    <!-- -------------------------------------------------------------------------------------- Index_Method -->
-        public ActionResult Index(string sortOrder, string searchString)
+        protected override void Dispose(bool disposing)
         {
 
-            ViewBag.TimestampSortParm = sortOrder == "Timestamp" ? "timestamp_desc" : "Timestamp";
-            ViewBag.HashSortParm = sortOrder == "Hash" ? "hash_desc" : "Hash";
-            ViewBag.SerialNumberSortParm = sortOrder == "SerialNumber" ? "serialnumber_desc" : "SerialNumber";
-
-            var mutedFeedbackEntries = from s in db.MutedFeedbackEntries
-                                       select s;
-
-            if (!String.IsNullOrEmpty(searchString))
-		    {
-                mutedFeedbackEntries = mutedFeedbackEntries.Where(s => s.FeedbackEntry.Hash.Contains(searchString)
-                                                                         || s.SerialNumber.Contains(searchString));
-		    }
-            
-    
-           switch (sortOrder)
-           {
-                case "timestamp_desc":
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderByDescending(s => s.Timestamp);
-                    break;
-	            case "Hash":
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderBy(s => s.FeedbackEntry.Hash);
-                    break;
-                case "hash_desc":
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderByDescending(s => s.FeedbackEntry.Hash);
-                    break;
-	            case "SerialNumber":
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderBy(s => s.SerialNumber);
-                    break;
-                case "serialnumber_desc":
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderByDescending(s => s.SerialNumber);
-                    break;
-                default:             
-                    mutedFeedbackEntries = mutedFeedbackEntries.OrderBy(s => s.Timestamp);
-	            break;
-            }
-
-           return View(mutedFeedbackEntries.ToList());
+            base.Dispose(disposing);
         }
 
-
-
-        // GET: MutedFeedbackEntries/Details/5    <!-- --------------------------------------------------------------------------- Details_Method -->
-        public ActionResult Details(Guid? id)
+        public ActionResult Index()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MutedFeedbackEntry mutedFeedbackEntry = db.MutedFeedbackEntries.Find(id);
-            if (mutedFeedbackEntry == null)
-            {
-                return HttpNotFound();
-            }
-            return View(mutedFeedbackEntry);
-        }
 
-        // GET: MutedFeedbackEntries/Create    <!-- --------------------------------------------------------------------------------- Create_Method -->
-        public ActionResult Create()
-        {
-            ViewBag.EntryId = new SelectList(db.FeedbackEntries, "Id", "Hash");
             return View();
         }
 
-        // POST: MutedFeedbackEntries/Create    <!-- --------------------------------------------------------------------- Create_Method_AntiForgery -->
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Timestamp,Version,SerialNumber,EntryId,UnMuted,HideFromView")] MutedFeedbackEntry mutedFeedbackEntry)
-        {
-            if (ModelState.IsValid)
-            {
-                mutedFeedbackEntry.Id = Guid.NewGuid();
-                db.MutedFeedbackEntries.Add(mutedFeedbackEntry);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.EntryId = new SelectList(db.FeedbackEntries, "Id", "Hash", mutedFeedbackEntry.EntryId);
-            return View(mutedFeedbackEntry);
+        public ActionResult Entries_Read([DataSourceRequest]DataSourceRequest request, string searchString)
+        {
+            return Json(GetEntries(searchString).ToDataSourceResult(request));
         }
 
-        // GET: MutedFeedbackEntries/Edit/5    <!-- ------------------------------------------------------------------------------------- Edit_Method -->
-        public ActionResult Edit(Guid? id)
+        private static IEnumerable<MutedFeedbackEntriesViewModel> GetEntries(string searchString)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MutedFeedbackEntry mutedFeedbackEntry = db.MutedFeedbackEntries.Find(id);
-            if (mutedFeedbackEntry == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.EntryId = new SelectList(db.FeedbackEntries, "Id", "Hash", mutedFeedbackEntry.EntryId);
-            return View(mutedFeedbackEntry);
-        }
+            var iSupportFeedback = new iSupportFeedbackEntities();
 
-        // POST: MutedFeedbackEntries/Edit/5    <!-- ------------------------------------------------------------------------- Edit_Method_AntiForgery -->
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Timestamp,Version,SerialNumber,EntryId,UnMuted,HideFromView")] MutedFeedbackEntry mutedFeedbackEntry)
-        {
-            if (ModelState.IsValid)
+            if (String.IsNullOrEmpty(searchString))
             {
-                db.Entry(mutedFeedbackEntry).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.EntryId = new SelectList(db.FeedbackEntries, "Id", "Hash", mutedFeedbackEntry.EntryId);
-            return View(mutedFeedbackEntry);
-        }
+                return iSupportFeedback.MutedFeedbackEntries.Select(mutedFeedbackEntries => new MutedFeedbackEntriesViewModel()
 
-        // GET: MutedFeedbackEntries/Delete/5    <!-- ---------------------------------------------------------------------------------- Delete_Method -->
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                {
+                    Timestamp = mutedFeedbackEntries.Timestamp,
+                    Hash = mutedFeedbackEntries.FeedbackEntry.Hash,
+                    Version = mutedFeedbackEntries.Version,
+                    Message = mutedFeedbackEntries.FeedbackEntry.FeedbackEntryInfoes.FirstOrDefault().Message.Substring(0, 50),
+                    SerialNumber = mutedFeedbackEntries.SerialNumber,
+                    UnMuted = mutedFeedbackEntries.UnMuted,
+                    HideFromView = mutedFeedbackEntries.HideFromView
+                });
             }
-            MutedFeedbackEntry mutedFeedbackEntry = db.MutedFeedbackEntries.Find(id);
-            if (mutedFeedbackEntry == null)
+            else 
             {
-                return HttpNotFound();
-            }
-            return View(mutedFeedbackEntry);
-        }
+                return iSupportFeedback.MutedFeedbackEntries.Where(s => s.FeedbackEntry.Hash.Contains(searchString)
+                                                                             || s.SerialNumber.Contains(searchString)
+                                                                             || s.Version.Contains(searchString)).Select(mutedFeedbackEntries => new MutedFeedbackEntriesViewModel()
 
-        // POST: MutedFeedbackEntries/Delete/5    <!-- ---------------------------------------------------------------------- Delete_Method_AntiForgery -->
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
-        {
-            MutedFeedbackEntry mutedFeedbackEntry = db.MutedFeedbackEntries.Find(id);
-            db.MutedFeedbackEntries.Remove(mutedFeedbackEntry);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
+                {
+                    Timestamp = mutedFeedbackEntries.Timestamp,
+                    Hash = mutedFeedbackEntries.FeedbackEntry.Hash,
+                    Version = mutedFeedbackEntries.Version,
+                    Message = mutedFeedbackEntries.FeedbackEntry.FeedbackEntryInfoes.FirstOrDefault().Message.Substring(0, 50),
+                    SerialNumber = mutedFeedbackEntries.SerialNumber,
+                    UnMuted = mutedFeedbackEntries.UnMuted,
+                    HideFromView = mutedFeedbackEntries.HideFromView
+                });
             }
-            base.Dispose(disposing);
         }
     }
 }
+
+
+// changed "First()" to "FirstOrDefault()"

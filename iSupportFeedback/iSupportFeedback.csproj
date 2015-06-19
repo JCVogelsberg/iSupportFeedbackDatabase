@@ -40,6 +40,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Kendo.Mvc">
+      <HintPath>\\nas2\Development\Tools and Utilities\Telerik\KendoUI\telerik.ui.for.aspnetmvc.2015.1.429.commercial\wrappers\aspnetmvc\Binaries\Mvc5\Kendo.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -49,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -115,12 +127,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -185,6 +191,7 @@
     <Compile Include="Models\FeedbackEntryInfo.cs">
       <DependentUpon>iSupportFeedbackModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FeedbackEntryInfoesViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\iSupportFeedbackModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -202,6 +209,7 @@
       <DependentUpon>iSupportFeedbackModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MutedFeedbackEntriesViewModel.cs" />
     <Compile Include="Models\MutedFeedbackEntry.cs">
       <DependentUpon>iSupportFeedbackModel.tt</DependentUpon>
     </Compile>
@@ -211,6 +219,22 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Kendo\Bootstrap\editor.png" />
+    <Content Include="Content\Kendo\Bootstrap\imagebrowser.png" />
+    <Content Include="Content\Kendo\Bootstrap\indeterminate.gif" />
+    <Content Include="Content\Kendo\Bootstrap\loading-image.gif" />
+    <Content Include="Content\Kendo\Bootstrap\loading.gif" />
+    <Content Include="Content\Kendo\Bootstrap\loading_2x.gif" />
+    <Content Include="Content\Kendo\Bootstrap\markers.png" />
+    <Content Include="Content\Kendo\Bootstrap\markers_2x.png" />
+    <Content Include="Content\Kendo\Bootstrap\slider-h.gif" />
+    <Content Include="Content\Kendo\Bootstrap\slider-v.gif" />
+    <Content Include="Content\Kendo\Bootstrap\sprite.png" />
+    <Content Include="Content\Kendo\Bootstrap\sprite_2x.png" />
+    <Content Include="Content\Kendo\Bootstrap\sprite_kpi.png" />
+    <Content Include="Content\Kendo\Bootstrap\sprite_kpi_2x.png" />
+    <Content Include="Content\Kendo\kendo.bootstrap.min.css" />
+    <Content Include="Content\Kendo\kendo.common-bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -243,6 +267,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Kendo\kendo.all.min.js" />
+    <Content Include="Scripts\Kendo\kendo.aspnetmvc.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

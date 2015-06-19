@@ -33,7 +33,7 @@ textarea {
 
 
 .jumbotron {
-    background-image: url('http://oi60.tinypic.com/29hoxk.jpg');
+    background-image: url('/Content/Images/blur.jpg');
     background-size: 800px 500px;
     color: white;
     text-shadow: #044B91 2px 2px;
@@ -50,4 +50,10 @@ h2 {
 
 .full-width {
     width: 90%;
+}
+
+
+hr {
+	background-color: #317EAC;
+    height: 2px;
 }

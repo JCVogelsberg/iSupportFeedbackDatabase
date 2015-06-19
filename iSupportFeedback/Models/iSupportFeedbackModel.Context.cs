@@ -7,7 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
 namespace iSupportFeedback.Models
 {
     using System;

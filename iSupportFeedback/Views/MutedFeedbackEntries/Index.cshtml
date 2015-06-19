@@ -1,65 +1,70 @@
-﻿@model IEnumerable<iSupportFeedback.Models.MutedFeedbackEntry>
-
-@{
-    ViewBag.Title = "Index";
-}
-
-<h2>Muted Feedback Entries</h2>
+﻿<h1>Muted Feedback Entries</h1>
 
 @using (Html.BeginForm())
 {
     <p>
-        Find by Hash or Serial Number:
+        Search Hash, Version, or Serial Number:
         @Html.TextBox("searchString")
-        <input type="submit" value="Search"/>
+        <input type="button" id="clickbutton" value="<SEARCH>"/>
     </p>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("Timestamp", "Index", new {sortOrder = ViewBag.TimestampSortParm })
-        </th>
+<hr>
 
-        <th>
-            @Html.ActionLink("Hash", "Index", new { sortOrder = ViewBag.HashSortParm })
-        </th>
-        <th>
-            @Html.ActionLink("SerialNumber", "Index", new {sortOrder = ViewBag.SerialNumberSortParm })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UnMuted)     
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HideFromView)
-        </th>   
-    </tr>
+<div id="clientsDb">
+    @(Html.Kendo().Grid<iSupportFeedback.Models.MutedFeedbackEntriesViewModel>()
+        .Name("grid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.Timestamp).Width(85).Format("{0:g}");
+            columns.Bound(c => c.Hash).Width(190);     
+            columns.Bound(c => c.Version).Width(60);       
+            columns.Bound(c => c.SerialNumber).Width(140);
+            columns.Bound(c => c.UnMuted).Width(50);
+            columns.Bound(c => c.HideFromView).Width(50);
+            columns.Bound(c => c.Message).Width(250);                          
+        })
+                
+        .HtmlAttributes(new { style = "height: 750px;" })   
+        .Scrollable()
+        .Filterable()    
+        //.Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(10))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(90)
+            .Read(read => read.Action("Entries_Read", "MutedFeedbackEntries")
+                              .Data("getSearch"))
+        )
+    )
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Timestamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FeedbackEntry.Hash)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SerialNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UnMuted)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HideFromView)
-        </td>
+<script>
+    function getSearch() {
+        return {
+            searchString: $("#searchString").val()
+        }
+    }
 
-        <td>
+    $(document).ready(function(){
+        $("#clickbutton").click(function() {
+            $('#grid').data('kendoGrid').dataSource.fetch();
+        })
+    }) 
+</script>
 
-            @Html.ActionLink("Details", "Details", new {id = item.Id})
-@*          @Html.ActionLink("Create TFS Bug")  *@
 
-        </td>
-    </tr>
-}
 
-</table>
+
+
+
+
+
+
+
+
+
